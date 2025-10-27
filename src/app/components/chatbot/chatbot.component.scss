@@ -36,7 +36,7 @@
   }
 }
 
-/* ✨ Efecto de pulso */
+/* ✨ Efecto de pulso del botón */
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(226, 155, 47, 0.5);
@@ -63,10 +63,8 @@
   flex-direction: column;
   overflow: hidden;
   z-index: 1100;
-
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-
   animation: slideUp 0.35s ease forwards;
 }
 
@@ -121,7 +119,7 @@
   background: rgba(255, 255, 255, 0.05);
   scroll-behavior: smooth;
 
-  /* Personalizar scroll */
+  /* Scroll personalizado */
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -176,18 +174,18 @@
   }
 }
 
-/* === 🔘 BOTONES INTERACTIVOS DEL BOT === */
+/* === 🔘 BOTONES INTERACTIVOS DEL BOT (Internos y Externos) === */
 .bot-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 8px;
+  margin-top: 10px;
 
   button {
     background: linear-gradient(90deg, #e59b2f, #a2003c);
     border: none;
     border-radius: 20px;
-    padding: 6px 12px;
+    padding: 7px 14px;
     color: #fff;
     font-size: 0.8rem;
     cursor: pointer;
@@ -195,9 +193,19 @@
     transition: all 0.3s ease;
     letter-spacing: 0.4px;
 
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    &:after {
+      content: "✨";
+      font-size: 0.7rem;
+      opacity: 0.8;
+    }
+
     &:hover {
       background: linear-gradient(90deg, #ffb300, #a2003c);
-      box-shadow: 0 0 8px rgba(255, 179, 0, 0.4);
+      box-shadow: 0 0 10px rgba(255, 179, 0, 0.5);
       transform: translateY(-2px);
     }
   }
@@ -272,5 +280,13 @@
       background: linear-gradient(90deg, #ffb300, #a2003c);
       transform: translateY(-1px);
     }
+  }
+}
+
+/* === 📱 RESPONSIVE AJUSTE === */
+@media (max-width: 480px) {
+  .chatbot-window {
+    width: 90%;
+    right: 5%;
   }
 }

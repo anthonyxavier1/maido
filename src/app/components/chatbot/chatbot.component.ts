@@ -8,7 +8,7 @@ interface ChatMessage {
   from: 'user' | 'bot';
   text: string;
   time: string;
-  buttons?: { label: string; value: string; route?: string }[];
+  buttons?: { label: string; value: string; route?: string; link?: string }[];
 }
 
 @Component({
@@ -30,7 +30,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
   constructor(private chatbotService: ChatbotService, private router: Router) {}
 
   ngOnInit() {
-    // ✅ Cargar historial si existe
+    // 🧠 Cargar historial guardado
     const savedHistory = localStorage.getItem(this.STORAGE_KEY);
     if (savedHistory) {
       try {
@@ -40,7 +40,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
       }
     }
 
-    // ✅ Saludo inicial solo la primera vez
+    // 👋 Mostrar saludo inicial solo la primera vez
     const greetingShown = localStorage.getItem(this.GREETING_SHOWN_KEY);
     if (!greetingShown) {
       setTimeout(() => {
@@ -48,7 +48,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
         this.addBotMessage('¿Qué deseas hacer hoy?', false, [
           { label: 'Ver Menú 🍱', value: 'ver menú', route: '/menu' },
           { label: 'Reservar 🕰️', value: 'hacer reserva', route: '/reserva' },
-          { label: 'Experiencias ✨', value: 'ver experiencias', route: '/experiencias' }
+          { label: 'Experiencias ✨', value: 'ver experiencias', route: '/menu' } // ✅ ajustado
         ]);
         localStorage.setItem(this.GREETING_SHOWN_KEY, 'true');
       }, 800);
@@ -59,7 +59,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
     this.saveChatHistory();
   }
 
-  /** 🕐 Hora actual en formato 12h */
+  /** 🕒 Obtener hora actual en formato 12h */
   private getCurrentTime(): string {
     const now = new Date();
     let hours = now.getHours();
@@ -69,46 +69,64 @@ export class ChatbotComponent implements OnInit, OnDestroy {
     return `${hours}:${minutes} ${ampm}`;
   }
 
-  /** 🔄 Mostrar u ocultar chat */
   toggleChat() {
     this.isOpen = !this.isOpen;
     if (this.isOpen) this.scrollToBottom();
   }
 
-  /** ✉️ Enviar mensaje del usuario */
-  async sendMessage(text?: string, route?: string) {
+  /** ✉️ Enviar mensaje del usuario o botón */
+  async sendMessage(text?: string, route?: string, link?: string) {
     const messageText = text || this.userInput.trim();
     if (!messageText) return;
 
+    // 🧍‍♂️ Agregar mensaje del usuario
     const userMessage: ChatMessage = {
       from: 'user',
       text: messageText,
       time: this.getCurrentTime()
     };
-
     this.messages.push(userMessage);
     this.saveChatHistory();
     this.scrollToBottom();
 
-    // 🔹 Si hay ruta asociada, redirigir
+    // 🚀 Si el botón tiene ruta interna
     if (route) {
       this.router.navigate([route]);
-      this.isOpen = false; // Cierra el chat al redirigir
+      this.isOpen = false;
       return;
     }
 
+    // 🌐 Si el botón tiene link externo
+    if (link) {
+      window.open(link, '_blank');
+      return;
+    }
+
+    // 💬 Petición al bot
     this.userInput = '';
     this.isTyping = true;
 
     try {
       const botReply = await this.chatbotService.sendMessage(messageText);
       this.isTyping = false;
-      this.addBotMessage(botReply);
+
+      // Detectar enlaces externos y convertirlos en botones
+      const linkRegex = /(https?:\/\/[^\s]+)/g;
+      const foundLinks = botReply.match(linkRegex);
+
+      if (foundLinks) {
+        const buttons = foundLinks.map((url) => ({
+          label: 'Abrir enlace 🔗',
+          value: 'Abrir enlace',
+          link: url
+        }));
+        this.addBotMessage(botReply.replace(linkRegex, '').trim(), true, buttons);
+      } else {
+        this.addBotMessage(botReply);
+      }
     } catch {
       this.isTyping = false;
-      this.addBotMessage(
-        '⚠️ Ocurrió un problema al procesar tu mensaje. Intenta nuevamente.'
-      );
+      this.addBotMessage('⚠️ Ocurrió un problema. Intenta nuevamente.');
     }
   }
 
@@ -116,7 +134,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
   private addBotMessage(
     text: string,
     save = true,
-    buttons?: { label: string; value: string; route?: string }[]
+    buttons?: { label: string; value: string; route?: string; link?: string }[]
   ) {
     const botMessage: ChatMessage = {
       from: 'bot',
@@ -125,7 +143,6 @@ export class ChatbotComponent implements OnInit, OnDestroy {
       buttons
     };
     this.messages.push(botMessage);
-
     if (save) this.saveChatHistory();
     this.scrollToBottom();
   }
@@ -138,7 +155,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** 📜 Scroll automático */
+  /** 🔽 Scroll automático */
   private scrollToBottom() {
     setTimeout(() => {
       const chatBody = document.querySelector('.chat-body');

@@ -14,11 +14,11 @@
     <div *ngFor="let msg of messages" [ngClass]="msg.from" class="message">
       <span class="text">{{ msg.text }}</span>
 
-      <!-- 🔘 Botones interactivos del bot -->
+      <!-- 🔘 Botones interactivos -->
       <div class="bot-buttons" *ngIf="msg.buttons && msg.from === 'bot'">
         <button
           *ngFor="let b of msg.buttons"
-          (click)="sendMessage(b.value, b.route)"
+          (click)="sendMessage(b.value, b.route, b.link)"
         >
           {{ b.label }}
         </button>
@@ -27,7 +27,6 @@
       <span class="time">{{ msg.time }}</span>
     </div>
 
-    <!-- 💭 Indicador de escritura -->
     <div class="typing-indicator" *ngIf="isTyping">
       <span></span><span></span><span></span>
     </div>

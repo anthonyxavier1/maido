@@ -1,375 +1,470 @@
 :host {
-  --bg: #0f141a;
-  --card: #151b22;
-  --muted: #9fb0c4;
-  --text: #e9eef6;
-  --pill: #1d2430;
-  --pill-border: #2a3240;
-  --accent: #8e46ff;
-  --accent-2: #1dd1a1;
-  --danger: #ff5b5b;
-  --warn: #ffb020;
-  --chip-free: #1aa36f;
-  --chip-busy: #d94b4b;
+  --brand-red: #a2003c;
+  --brand-gold: #e59b2f;
+  --bg: #0c0a0d;
+  --card: rgba(255, 255, 255, 0.05);
+  --stroke: rgba(255, 255, 255, 0.08);
+  --text: #f2f2f2;
+  --muted: #a3a3a3;
+  --danger: #ff4d4d;
+  --success: #1de0a5;
+  --accent: var(--brand-red);
+  --shadow: 0 0 25px rgba(162, 0, 60, 0.2);
 
+  background: radial-gradient(ellipse at top, #140a0d 0%, #080708 100%);
   color: var(--text);
-  display: block;
-  background: var(--bg);
   min-height: 100vh;
-  font: 500 14px/1.3 Inter, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji';
+  display: block;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* ===== Header ===== */
+/* ===== HEADER ===== */
 .topbar {
-  position: sticky; top: 0; z-index: 5;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 18px;
-  background: linear-gradient(180deg, #0f141acc 0, #0f141a 80%);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid #1b2230;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  backdrop-filter: blur(10px);
+  background: rgba(10, 10, 10, 0.6);
+  border-bottom: 1px solid var(--stroke);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .logo-img {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      object-fit: contain;
+      box-shadow: 0 0 15px rgba(226, 155, 47, 0.25);
+    }
+
+    .title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+
+      /* ✨ degradado MAIDO */
+      background: linear-gradient(90deg, var(--brand-red), var(--brand-gold));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+
+      /* 💫 animación del degradado */
+      background-size: 200% auto;
+      animation: shineGradient 5s ease-in-out infinite;
+    }
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
 }
 
-.brand { display: flex; align-items: center; gap: 12px; }
-.logo-img { width: 40px; height: 40px; object-fit: contain; border-radius: 8px; }
-.title { font-weight: 700; letter-spacing: .4px; }
-
-.right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-
+/* ===== PILLS ===== */
 .pill {
-  height: 36px; padding: 0 12px; border-radius: 10px;
-  background: var(--pill); border: 1px solid var(--pill-border); color: var(--text);
-}
-.pill.text { display:flex; align-items:center; gap:8px; }
-.pill.ghost { background: transparent; }
-.pill.ghost.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
-.pill.select { min-width: 140px; }
-.pill.ok { background: #0ea5e9; border-color: #0ea5e9; color:#04121b; font-weight:700; }
-.pill.warn { background: #f97316; border-color: #f97316; color:#281709; font-weight:700; }
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font-weight: 600;
+  transition: all 0.2s ease;
 
-/* ===== Grid ===== */
+  &.ghost {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    &.active {
+      border-color: var(--brand-red);
+      box-shadow: 0 0 8px rgba(162, 0, 60, 0.4);
+      color: var(--brand-gold);
+    }
+  }
+
+  &.ok {
+    background: var(--success);
+    border-color: var(--success);
+    color: #052017;
+  }
+
+  &.warn {
+    background: #f97316;
+    border-color: #f97316;
+    color: #2c0c02;
+  }
+
+  &.gold {
+    background: var(--brand-gold);
+    border-color: var(--brand-gold);
+    color: #2e2202;
+  }
+
+  &.clear {
+    background: #263244;
+    border-color: #314055;
+  }
+
+  &.logout {
+    background: var(--brand-red);
+    border-color: var(--brand-red);
+    color: #fff;
+    font-weight: 700;
+  }
+
+  &:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+  }
+}
+
+/* ===== GRID ===== */
 .grid {
-  display: grid; gap: 16px; padding: 16px 18px 26px;
+  display: grid;
+  gap: 20px;
+  padding: 28px;
   grid-template-columns: 1fr 2fr 1.2fr;
 }
 
+/* ===== TARJETAS ===== */
 .card {
-  background: var(--card); border: 1px solid #1b2230; border-radius: 14px; padding: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: 18px;
+  padding: 18px 20px 22px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  transition: 0.3s ease;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    margin-bottom: 14px;
+
+    /* 🎨 degradado dorado-rojo MAIDO */
+    background: linear-gradient(90deg, var(--brand-gold), var(--brand-red));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+
+    background-size: 200% auto;
+    animation: shineGradient 6s ease-in-out infinite;
+  }
 }
 
-h2 { margin: 0 0 12px 0; font-size: 20px; }
+/* ===== MESAS ===== */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
 
-/* Mesas */
-.tabs { display: flex; gap: 8px; margin-bottom: 12px; }
-.tab { background: var(--pill); border:1px solid var(--pill-border); border-radius:999px; padding: 8px 14px; }
-.tab.active { border-color: var(--accent); color:#eedeff; }
+.tab {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--stroke);
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  &.active {
+    border-color: var(--brand-red);
+    color: var(--brand-gold);
+  }
+}
 
 .mesas {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
 }
+
 .mesa {
-  height: 64px; border-radius: 12px; font-size: 20px; font-weight: 700;
-  border: 1px solid #222a38; background: #0f141a; box-shadow: inset 0 -30px 40px #0c1117;
-}
-.mesa.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset, inset 0 -30px 40px #0c1117; }
-.mesa.busy { border-color: var(--chip-busy); position: relative; }
-.mesa.busy::after {
-  content: '•'; color: var(--chip-busy); position: absolute; top: 6px; right: 10px; font-size: 18px;
-}
-
-.status { display:flex; gap:8px; align-items:center; }
-.muted { color: var(--muted); }
-.chip {
-  padding: 4px 10px; border-radius: 999px; font-weight: 700; text-transform: lowercase;
-  border: 1px solid #2a3240;
-}
-.chip.free { color:#0fdca1; border-color:#196b53; background:#0b2e28; }
-.chip.busy { color:#ff9a9a; border-color:#5e2323; background:#2b1414; }
-
-/* Carta */
-.filters { display:flex; gap: 10px; align-items:center; margin-bottom: 10px; }
-.search { flex:1; height: 38px; border-radius: 10px; padding: 0 12px; border:1px solid #243044; background:#0c1117; color: var(--text); }
-.chips { display:flex; gap:8px; flex-wrap: wrap; margin-bottom:8px; }
-.chip { background: #0f141a; border:1px solid #243044; }
-.chip.active { border-color: var(--accent); color:#eedeff; }
-
-.list { display:flex; flex-direction:column; gap:12px; }
-.row {
-  display:grid; grid-template-columns: 1fr auto auto auto; gap: 12px; align-items:center;
-  background:#0f141a; border:1px solid #243044; border-radius:12px; padding:12px;
-}
-.info .name { font-weight:700; font-size:16px; }
-.info .sub { color:var(--muted); font-size:12px; margin-top:2px; }
-.price { font-weight:800; padding: 6px 10px; background:#0c1117; border:1px solid #243044; border-radius:10px; }
-
-.qty { display:flex; align-items:center; gap:6px; }
-.icon { width:36px; height:36px; border-radius:10px; background:#101826; border:1px solid #243044; font-size:20px; }
-.qtybox { width:64px; height:36px; text-align:center; border-radius:10px; background:#0c1117; color:var(--text); border:1px solid #243044; }
-
-.add {
-  height:38px; padding: 0 14px; border-radius:12px; font-weight:700;
-  background:#9b4dff; border:1px solid #9b4dff; color:#210b3b;
-}
-.add:hover { filter: brightness(1.05); }
-
-/* Pedido */
-.personas { display:flex; gap:8px; margin-bottom:10px; }
-.round {
-  width:40px; height:40px; border-radius:50%; background:#0f141a; border:1px solid #243044; font-weight:800;
-}
-.round.active { border-color: var(--accent-2); box-shadow: 0 0 0 1px var(--accent-2) inset; }
-
-.total { display:flex; justify-content:space-between; align-items:center; margin: 6px 0 10px; }
-.total strong { font-size:18px; }
-
-textarea {
-  width:100%; resize: vertical; min-height:96px; margin-bottom:12px;
-  border-radius:12px; padding:10px; background:#0c1117; color:var(--text); border:1px solid #243044;
-}
-
-.orderlist { display:flex; flex-direction:column; gap:8px; }
-.oline {
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
-  background:#0f141a; border:1px solid #243044; border-radius:12px; padding:10px 12px;
-}
-.oline-info { display:flex; flex-direction:column; }
-.oline-name { font-weight:700; }
-.oline-sub { color:var(--muted); font-size:12px; }
-.oline-price { font-weight:800; }
-.oline-remove {
-  width:36px; height:36px; border-radius:10px; background:#2b1414; border:1px solid #5e2323; color:#ff9a9a;
-}
-
-.order-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:8px; }
-.order-actions.center { justify-content:center; }
-
-.btn {
-  height:40px; border-radius:12px; padding:0 18px; border:1px solid transparent; font-weight:800;
-}
-.btn.ghost { background:#101826; border-color:#243044; }
-.btn.primary { background:#10b981; border-color:#10b981; color:#062217; }
-
-/* ===== Toasts ===== */
-.toast-wrap {
-  position: fixed; right: 18px; bottom: 18px; display:flex; flex-direction:column; gap:8px; z-index: 50;
-}
-.toast {
-  display:flex; align-items:center; gap:10px;
-  min-width: 260px; max-width: 360px;
-  background:#0f141a; border:1px solid #243044; border-radius:12px; padding:10px 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,.35);
-  overflow: hidden; position: relative;
-}
-.toast .icon { width:26px; height:26px; border-radius:8px; display:grid; place-items:center; font-weight:900; }
-.toast .msg { flex:1; }
-
-.toast.success .icon { background:#083024; color:#1de0a5; }
-.toast.info .icon { background:#0a2741; color:#61d2ff; }
-.toast.warning .icon { background:#3b2b0a; color:#ffd95e; }
-.toast.danger .icon { background:#3a0e0e; color:#ff8b8b; }
-
-.toast .bar {
-  position:absolute; left:0; bottom:0; height:3px; width:100%;
-  background: linear-gradient(90deg, #9b4dff, #1de0a5);
-  animation-name: toastbar; animation-timing-function: linear; animation-fill-mode: forwards;
-}
-@keyframes toastbar { from { width:100% } to { width:0% } }
-
-/* ===== Responsive ===== */
-@media (max-width: 1200px) {
-  .grid { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 900px) {
-  .grid { grid-template-columns: 1fr; }
-  .topbar .right { width:100%; justify-content:flex-end; }
-}
-.mesa.reservada {
-  border-color: #eab308; /* dorado */
-  box-shadow: 0 0 0 1px #eab308 inset, inset 0 -30px 40px #0c1117;
-}
-.mesa.reservada::after {
-  content: 'R';
-  color: #eab308;
-  position: absolute;
-  top: 6px;
-  right: 10px;
-  font-weight: 800;
-}
-.chip.reservada {
-  color: #eab308;
-  border-color: #5b4c1a;
-  background: #2a230e;
-}
-/* ===== Integración con el nuevo HTML (PEGA AL FINAL) ===== */
-
-/* Botón dorado (Marcar reservada) */
-.pill.gold {
-  background: #eab308;
-  border-color: #eab308;
-  color: #2e2202;
+  height: 64px;
+  border-radius: 14px;
+  font-size: 18px;
   font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: inset 0 -25px 40px rgba(0, 0, 0, 0.4);
+  transition: 0.25s ease;
+  position: relative;
+
+  &.active {
+    border-color: var(--brand-red);
+    box-shadow: 0 0 0 2px var(--brand-red) inset,
+                inset 0 -30px 40px rgba(162, 0, 60, 0.3);
+  }
+
+  &.ocupada {
+    border-color: var(--brand-red);
+    box-shadow: 0 0 0 1px var(--brand-red) inset;
+  }
+
+  &.reservada {
+    border-color: var(--brand-gold);
+    box-shadow: 0 0 0 1px var(--brand-gold) inset;
+  }
 }
 
-/* Leyenda de estados bajo las mesas */
+/* Leyenda */
 .legend {
   display: flex;
-  align-items: center;
   gap: 14px;
-  margin-top: 12px;
+  font-size: 0.9rem;
   color: var(--muted);
-  font-size: .92rem;
-}
-.dot { display:inline-block; width:10px; height:10px; border-radius:50%; }
-.dot.free { background: #1de0a5; }
-.dot.busy { background: #ff5b5b; }
-.dot.res  { background: #eab308; }
+  margin-top: 10px;
 
-/* Alias “ocupada” (tu CSS usa .busy; el HTML usa .ocupada) */
-.mesa.ocupada {
-  border-color: var(--chip-busy);
-  position: relative;
-  box-shadow: 0 0 0 1px var(--chip-busy) inset, inset 0 -30px 40px #0c1117;
-}
-.mesa.ocupada::after {
-  content: '';
-  position: absolute;
-  top: 6px; right: 10px;
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--chip-busy);
-}
+  .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 4px;
 
-/* Ya tienes .mesa.reservada y .chip.reservada: OK */
-
-/* Deshabilitar "Añadir" cuando la mesa está reservada */
-.add:disabled { opacity: .6; cursor: not-allowed; }
-
-/* ===== Toasts: alias para que el HTML funcione con tu estilo ===== */
-/* Tu SCSS usa .toast-wrap; el HTML usa .toast-box */
-.toast-box { @extend .toast-wrap; }
-
-/* El HTML aplica clases .s .i .w .d; mapeamos a tus colores */
-.toast.s { border-color:#134e30; background:#0d1812; color:#1de0a5; }
-.toast.i { border-color:#244561; background:#0d151d; color:#61d2ff; }
-.toast.w { border-color:#5b4c1a; background:#2a230e; color:#ffd95e; }
-.toast.d { border-color:#5e2323; background:#2b1414; color:#ff8b8b; }
-/* ====== MAIDO brand tuning ====== */
-/* Rojo carmesí basado en el logo */
-:host {
-  --brand-red: #d0163c;    /* rojo principal */
-  --brand-red-2: #e11d48;  /* rojo claro para degradado/hover */
-  --brand-deep: #7a0a1f;   /* rojo profundo para sombras */
-  --brand-gold: #eab308;   /* ya lo usas para reservada */
-
-  /* Reemplazamos el accent morado por el rojo MAIDO */
-  --accent: var(--brand-red);
+    &.free {
+      background: var(--success);
+    }
+    &.busy {
+      background: var(--brand-red);
+    }
+    &.res {
+      background: var(--brand-gold);
+    }
+  }
 }
 
-/* Contornos activos (tabs/pills activos) */
-.tab.active,
-.pill.ghost.active {
-  border-color: var(--brand-red) !important;
-  box-shadow: 0 0 0 1px var(--brand-red) inset !important;
-  color: #ffd9e1; /* leve tinte */
+/* ===== CARTA ===== */
+.filters {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
-/* Botón “Añadir” con rojo MAIDO */
-.add {
-  background: linear-gradient(90deg, var(--brand-red), var(--brand-red-2));
-  border-color: var(--brand-red);
-  color: #fff;
-}
-.add:hover { filter: brightness(1.06); }
-
-/* Precio/focos con borde sutil en rojo al hover */
-.row:hover .price {
-  border-color: rgba(208, 22, 60, .35);
+.search {
+  flex: 1;
+  height: 38px;
+  border-radius: 10px;
+  padding: 0 12px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
 }
 
-/* Mesa seleccionada: resalta con rojo */
-.mesa.active {
-  border-color: var(--brand-red) !important;
-  box-shadow:
-    0 0 0 1px var(--brand-red) inset,
-    inset 0 -30px 40px #0c1117;
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
-/* Ocupada: mantenemos el rojo pero más “MAIDO” */
-.mesa.ocupada {
-  border-color: var(--brand-red);
-  box-shadow:
-    0 0 0 1px var(--brand-red) inset,
-    inset 0 -30px 40px #0c1117;
-}
-.mesa.ocupada::after {
-  background: var(--brand-red);
-}
-
-/* Chip de estado ocupado con rojo MAIDO */
-.chip.busy {
-  color: #ffc0cb;
-  border-color: #5e1b28;
-  background: #2a0f16;
-}
-
-/* ====== Botón “Liberar mesa” (estilo propio, sobrio) ====== */
-/* Usa esta clase en el HTML: class="pill clear" */
-.pill.clear {
-  background: #263244;              /* azul-gris sobrio */
-  border-color: #314055;
-  color: #e8eef6;
-  font-weight: 700;
-}
-.pill.clear:hover { filter: brightness(1.06); }
-
-/* Si prefieres una versión outline discreta:
-.pill.clear {
-  background: transparent;
-  border-color: #4b5563;
-  color: #cbd5e1;
-}
-.pill.clear:hover {
-  border-color: #8fa2bb;
-  color: #e9eef6;
-}
-*/
-
-/* Botones superiores opcionales (consistencia) */
-.pill.ok   { background: #10b981; border-color:#10b981; color:#062217; } /* Enviar a cocina */
-.pill.warn { background: #f97316; border-color:#f97316; color:#281709; } /* Marcar listo */
-.pill.gold { background: var(--brand-gold); border-color: var(--brand-gold); color:#2e2202; } /* Reservada */
-
-/* Leyenda: colores más alineados */
-.dot.busy { background: var(--brand-red); }
-/* ====== Botón “Cerrar sesión” ====== */
-.pill.logout {
-  background: var(--danger); /* usa el rojo de tu tema */
-  border-color: var(--danger);
-  color: #fff;
-  font-weight: 700;
-  padding: 0 14px;
+.chip {
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px 12px;
+  cursor: pointer;
   transition: 0.2s ease;
+
+  &.active {
+    border-color: var(--brand-red);
+    color: var(--brand-gold);
+  }
 }
 
-.pill.logout:hover {
-  filter: brightness(1.1);
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-/* ====== Responsive: mantener logout visible y alineado ====== */
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid var(--stroke);
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  transition: 0.2s ease;
+
+  &:hover {
+    border-color: rgba(226, 155, 47, 0.4);
+  }
+}
+
+.price {
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+
+.add {
+  background: linear-gradient(90deg, var(--brand-red), var(--brand-gold));
+  border: none;
+  border-radius: 12px;
+  padding: 8px 14px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  &:hover {
+    filter: brightness(1.1);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* ===== PEDIDO ===== */
+.personas {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.round {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--stroke);
+  font-weight: 800;
+
+  &.active {
+    border-color: var(--brand-gold);
+    box-shadow: 0 0 0 1px var(--brand-gold) inset;
+  }
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0 12px;
+  font-size: 1rem;
+
+  strong {
+    font-size: 1.2rem;
+    color: var(--brand-gold);
+  }
+}
+
+textarea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  padding: 10px;
+  min-height: 96px;
+  resize: vertical;
+}
+
+/* ===== TOASTS ===== */
+.toast-wrap {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 50;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 260px;
+  max-width: 360px;
+  background: rgba(20, 10, 12, 0.9);
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  padding: 10px 12px;
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  position: relative;
+  animation: fadeIn 0.25s ease;
+
+  &.success .icon { color: var(--success); }
+  &.info .icon { color: #61d2ff; }
+  &.warning .icon { color: var(--brand-gold); }
+  &.danger .icon { color: var(--danger); }
+
+  .bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    background: linear-gradient(90deg, var(--brand-gold), var(--brand-red));
+    animation: toastbar 3s linear forwards;
+  }
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes shineGradient {
+  0% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+  100% { background-position: 0% center; }
+}
+
+@keyframes toastbar {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
   .topbar {
     flex-wrap: wrap;
     gap: 10px;
   }
 
-  .topbar .right {
+  .right {
     width: 100%;
     justify-content: flex-end;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .pill.logout {
-    margin-top: 6px;
-    align-self: flex-end;
   }
 }

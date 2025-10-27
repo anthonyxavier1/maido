@@ -3,25 +3,51 @@
   padding: 4rem 1.5rem;
   color: #fff;
   overflow: hidden;
+  text-align: center;
+
+  /* 🎨 Fondo unificado con tonos similares a las otras secciones */
   background:
-    linear-gradient(180deg, rgba(10, 10, 10, 0.85), rgba(25, 10, 15, 0.9)),
+    linear-gradient(180deg, rgba(16, 10, 11, 0.85), rgba(10, 9, 9, 0.9)),
     url('/assets/img/maido3.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  text-align: center;
+
+  /* 🌫️ Capa extra para suavizar el contraste del fondo */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    filter: blur(6px) brightness(0.9);
+    transform: scale(1.05);
+    z-index: 0;
+  }
+
+  /* 🌒 Degradado inferior que conecta con el fondo global */
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 140px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #0a0a0a 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
 
   .overlay {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.3);
-    z-index: 0;
+    z-index: 1;
   }
 
   /* 🩶 Contenedor principal con efecto cristal */
   .container {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     max-width: 850px;
     margin: 0 auto;
     background: linear-gradient(
@@ -72,31 +98,15 @@
 
   /* 🌈 Animación del glow */
   @keyframes glowAnim {
-    0% {
-      transform: rotate(0deg) scale(1);
-      filter: hue-rotate(0deg) blur(12px);
-    }
-    50% {
-      transform: rotate(1deg) scale(1.02);
-      filter: hue-rotate(40deg) blur(14px);
-    }
-    100% {
-      transform: rotate(-1deg) scale(1);
-      filter: hue-rotate(80deg) blur(12px);
-    }
+    0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg) blur(12px); }
+    50% { transform: rotate(1deg) scale(1.02); filter: hue-rotate(40deg) blur(14px); }
+    100% { transform: rotate(-1deg) scale(1); filter: hue-rotate(80deg) blur(12px); }
   }
 
-  /* ⚡ Pulso suave */
   @keyframes pulseGlow {
-    0% {
-      box-shadow: 0 0 0 rgba(255, 0, 92, 0);
-    }
-    50% {
-      box-shadow: 0 0 45px rgba(255, 0, 92, 0.5);
-    }
-    100% {
-      box-shadow: 0 0 0 rgba(255, 0, 92, 0);
-    }
+    0% { box-shadow: 0 0 0 rgba(255, 0, 92, 0); }
+    50% { box-shadow: 0 0 45px rgba(255, 0, 92, 0.5); }
+    100% { box-shadow: 0 0 0 rgba(255, 0, 92, 0); }
   }
 
   /* ✴️ Título y descripción */
@@ -128,20 +138,19 @@
     grid-template-columns: 1.2fr 0.9fr;
     gap: 1rem;
     align-items: flex-start;
-    justify-content: center; /* ✅ centra visualmente las columnas */
+    justify-content: center;
     text-align: left;
 
-    /* 🔹 Agrega padding lateral interno a ambas columnas */
     .col {
       display: flex;
       flex-direction: column;
       gap: 0.9rem;
-      padding-inline: 1.2rem; /* 👈 mueve todo un poco hacia adentro */
+      padding-inline: 1.2rem;
     }
 
     .info-item {
       h3 {
-        color: #e65a8c; /* tono rosa elegante */
+        color: #e65a8c;
         font-weight: 700;
         margin-bottom: 0.15rem;
         font-size: 1.05rem;
@@ -160,45 +169,55 @@
         transition: 0.3s ease;
 
         &:hover {
-          color: #f6a3c0; /* rosa perlado suave */
+          color: #f6a3c0;
           border-bottom: 1px solid rgba(255, 170, 190, 0.5);
         }
       }
     }
 
-    /* 🗺️ Botón Google Maps con efecto glass y pulso */
+    /* 🗺️ Botón Google Maps - estilo coherente y animado */
     .btn-mapa {
+      position: relative;
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
       margin-top: 0.35rem;
-      padding: 0.58rem 1.05rem;
+      padding: 0.65rem 1.2rem;
+      border: 2px solid #a2003c;
       border-radius: 10px;
+      color: #fff;
       font-weight: 600;
       text-decoration: none;
-      color: #fff;
-      background: linear-gradient(90deg, rgba(162, 0, 60, 0.85), rgba(211, 77, 112, 0.85));
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(6px);
-      box-shadow: 0 4px 14px rgba(162, 0, 60, 0.18);
-      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-      animation: mapaPulse 3.2s ease-in-out infinite;
+      background: transparent;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      z-index: 1;
 
-      &:hover {
-        transform: translateY(-2px);
-        background: linear-gradient(90deg, rgba(211, 77, 112, 0.95), rgba(162, 0, 60, 0.95));
-        box-shadow: 0 6px 18px rgba(162, 0, 60, 0.28);
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, #a2003c, #ff005c);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+        z-index: -1;
       }
 
-      &:active {
-        transform: translateY(0);
-        box-shadow: 0 3px 10px rgba(162, 0, 60, 0.22);
+      &:hover::before {
+        transform: scaleX(1);
+      }
+
+      &:hover {
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(162, 0, 60, 0.35);
       }
 
       .icon-mapa {
         width: 17px;
         height: 17px;
-        stroke: #fff;
+        stroke: currentColor;
         opacity: 0.9;
         transition: opacity 0.25s ease, transform 0.25s ease;
 
@@ -209,28 +228,16 @@
       }
     }
 
-    @keyframes mapaPulse {
-      0% {
-        box-shadow: 0 4px 14px rgba(162, 0, 60, 0.18);
-      }
-      50% {
-        box-shadow: 0 6px 22px rgba(162, 0, 60, 0.28);
-      }
-      100% {
-        box-shadow: 0 4px 14px rgba(162, 0, 60, 0.18);
-      }
-    }
-
     /* ⏰ Bloque horario */
     .horario {
       text-align: center;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 12px;
-      padding: 1.4rem 1.5rem; /* 👈 más aire interno lateral */
+      padding: 1.4rem 1.5rem;
       align-self: center;
       min-width: 240px;
-      margin-right: 0.5rem; /* 👈 pequeño balance hacia el centro */
+      margin-right: 0.5rem;
 
       h3 {
         color: #fff;
@@ -252,15 +259,9 @@
   }
 
   @keyframes tituloBrillo {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   /* 📱 Responsive */
